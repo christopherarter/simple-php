@@ -1,7 +1,7 @@
 FROM php:7.2.4-fpm
 
 RUN apt-get update && apt-get install -y \
-
+        apt-utils \
         supervisor \
         nginx \
         libfreetype6-dev \
@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
         libsqlite3-dev \
         zlib1g-dev \
 
-    && docker-php-ext-install docker-php-ext-install pdo_mysql pdo_sqlite mysqli mcrypt json zip opcache \
+    && docker-php-ext-install pdo_mysql pdo_sqlite mysqli gd json zip opcache \
     && EXPECTED_COMPOSER_SIGNATURE=$(wget -q -O - https://composer.github.io/installer.sig) \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "if (hash_file('SHA384', 'composer-setup.php') === '${EXPECTED_COMPOSER_SIGNATURE}') { echo 'Composer.phar Installer verified'; } else { echo 'Composer.phar Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
